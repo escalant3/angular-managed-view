@@ -5,15 +5,12 @@ describe('User defined link function', function() {
 	beforeEach(module('programmable'));
 
 	var Mock = {
-		link: function(scope, elem, attrs) {
-			called = 1;
-		}
+		link: jasmine.createSpy('user link function')
 	};
 
 	beforeEach(inject(function($window, _$compile_, _$rootScope_) {
 		$compile = _$compile_;
 		$rootScope = _$rootScope_;
-		called = 0;
 
 		$window.view = {
 			viewCompiler: 'UnderscoreCompiler',
@@ -25,8 +22,7 @@ describe('User defined link function', function() {
 
 	it('should call a user defined link function', function() {
 		var $scope = $rootScope.$new();
-		expect(called).toBe(0);
 		var element = $compile('<programmable-view></programmable-view>')($scope);
-		expect(called).toBe(1);
+		expect(Mock.link).toHaveBeenCalled();
 	});
 });
