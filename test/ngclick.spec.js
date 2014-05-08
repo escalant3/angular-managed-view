@@ -9,7 +9,7 @@ describe('It should respond to defined ng-click handlers', function() {
 		$rootScope = _$rootScope_;
 
 		Mock = {
-			foo: function() { console.log('foo'); }
+			foo: jasmine.createSpy('ng-click handler')
 		};
 
 		$window.view = {
@@ -17,21 +17,16 @@ describe('It should respond to defined ng-click handlers', function() {
 			restrict: 'E',
 			template: '<a ng-click="foo()">Foo</a>',
 			controller: function($scope) {
-				$scope.foo = function() {
-					Mock.foo();
-				};
+				$scope.foo = Mock.foo;
 			}
 		};
 	}));
 
-	xit('should call a user defined link function', function() {
-		spyOn(Mock, 'foo');
-
+	it('should call a user defined link function', function() {
 		var $scope = $rootScope.$new();
 		var element = $compile('<programmable-view></programmable-view>')($scope);
-		var anchor = element.find('a');
 
-		anchor.triggerHandler('click');
+		element.find('a').click();
 		expect(Mock.foo).toHaveBeenCalled();
 	});
 });
