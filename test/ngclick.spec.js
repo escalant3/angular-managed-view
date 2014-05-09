@@ -18,6 +18,9 @@ describe('It should respond to defined ng-click handlers', function() {
 			template: '<a ng-click="foo()">Foo</a>',
 			controller: function($scope) {
 				$scope.foo = Mock.foo;
+				$scope.bar = function() {
+					$scope.$render();
+				};
 			}
 		};
 	}));
@@ -28,5 +31,17 @@ describe('It should respond to defined ng-click handlers', function() {
 
 		element.find('a').click();
 		expect(Mock.foo).toHaveBeenCalled();
+	});
+
+	it('should clean previous listeners before adding them again in $render', function() {
+		var $scope = $rootScope.$new();
+		var element = $compile('<programmable-view></programmable-view>')($scope);
+
+		$scope.bar();
+		$scope.$digest();
+
+		element.find('a').click();
+		expect(Mock.foo).toHaveBeenCalled();
+		expect(Mock.foo.calls.length).toEqual(1);
 	});
 });

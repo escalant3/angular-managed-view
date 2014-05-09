@@ -58,7 +58,7 @@
                 delete directiveOptions.template;
 
                 directiveOptions.compile = function(elem, attrs) {
-                                    
+
                     return function(scope, elem, attrs) {
 
                         function render() {
@@ -71,6 +71,9 @@
 
                             // Replace contents of the directive
                             elem[0].innerHTML = rendered;
+
+                            // Remove previous listeners
+                            elem.off('click');
 
                             // Attach a resolver for events
                             elem.on('click', function(event) {

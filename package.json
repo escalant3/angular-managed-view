@@ -1,6 +1,6 @@
 {
   "name": "angular-managed-view",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A convenient way of managing views with your favourite tool in Angular",
   "main": "index.js",
   "scripts": {
