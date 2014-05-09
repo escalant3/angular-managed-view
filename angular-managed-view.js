@@ -118,7 +118,7 @@
     var originalMethod = angular.module;
     angular.module = function(name, reqs, configFn) {
         var module = originalMethod(name, reqs, configFn);
-        module.managedView = angular.managedDirective =  view;
+        module.managedView = module.managedDirective =  view;
         return module;
     };
 
