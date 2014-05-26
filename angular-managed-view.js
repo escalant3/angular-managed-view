@@ -63,7 +63,8 @@
 
                         function render() {
                             var rendered,
-                                context;
+                                context,
+                                parentElement;
 
                             // Render context in template
                             context = (scope.$createContext || angular.identity)(scope);
@@ -79,8 +80,16 @@
                             elem.on('click', function(event) {
 
                                 // Does the clicked element have an ng-click?
+                                var elemHTML = elem[0].innerHTML;
                                 var target = angular.element(event.target);
                                 var ngClickHandler = target.attr('ng-click');
+
+                                // Blubble up for the first ng-click
+                                while (!!target && !ngClickHandler && elemHTML !== target[0].innerHTML) {
+                                    target = target.parent() && target.parent()[0];
+                                    target = angular.element(target);
+                                    ngClickHandler = target.attr('ng-click');
+                                }
 
                                 if (!!ngClickHandler) {
                                     // Make $event available in the scope as is expected in Angular
